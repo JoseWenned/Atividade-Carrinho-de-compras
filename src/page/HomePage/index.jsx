@@ -9,13 +9,13 @@ export const HomePage = () => {
     const { isOpen } = useContext(UserContext)
 
     return(
-        <>  
+        <main>  
             <Header />
             <ProductList />
 
             {isOpen && (
                 <Cart />
             )}
-        </>
+        </main>
     )
 }

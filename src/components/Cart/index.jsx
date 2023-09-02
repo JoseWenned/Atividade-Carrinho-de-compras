@@ -10,7 +10,7 @@ export const Cart = () => {
         totalValue, 
         itemProduct, 
         setTotalValue,
-        handleRemove} = useContext(UserContext)
+        handleRemoveProduct} = useContext(UserContext)
 
     const modalClose = () => {
         setIsOpen(false)
@@ -20,37 +20,53 @@ export const Cart = () => {
         setItemProduct([])
         setIsCount(0)
         setTotalValue(0)
+
+        localStorage.removeItem("addProduct")
+        localStorage.removeItem("count")
+        localStorage.removeItem("totalValue")
     }
 
     return(
-        <section>
-            <header>
-                <h3>Shopping Cart</h3>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <section className="w-80 h-80 bg-slate-50 rounded">
+                <header className="flex justify-between bg-slate-200 h-10 rounded">
+                    <h3 className="font-sans font-bold text-1xl mt-2 ml-2">Shopping Cart</h3>
 
-                <button onClick={modalClose} type="submit">X</button>
-            </header>
+                    <button className="font-sans font-bold text-1xl px-2 rounded h-9 w-9 mt-.5" onClick={modalClose} type="submit">X</button>
+                </header>
 
-            {setItemProduct.length !== 0 ? 
-            <section>
-                <ul>
-                    {itemProduct?.map((item) => {
-                        return(
-                            <li key={item.id}>
-                                <img src={item.image} alt={item.name}/>
-                                <h3>{item.name}</h3>
-                                <button onClick={()=>  handleRemove(item.id)} type="sumit">Remove</button>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </section> : (<p>Cart empty</p>)}
+                {setItemProduct.length !== 0 ? 
+                <section>
+                    <ul>
+                        {itemProduct?.map((item) => {
+                            return(
+                                <li className="mt-5 ml-2 relative" key={item.id}>
+                                    
+                                    <div className="flex row justify-between">
+                                        <img className="h-20 w-20" src={item.image} alt={item.name}/>
+                                        <h3 className="mr-2 font-semibold font-sans">{item.name}</h3>
+                                    </div>
+                                    
+                                    <div>
+                                        <button className="border-2 rounded bg-slate-50 h-9 w-20 -mt-9 absolute ml-56 font-semibold font-sans" onClick={()=>  handleRemoveProduct(item)} type="sumit">Remove</button>
+                                    </div>
+                                    
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </section> : (<p>Cart empty</p>)}
 
-            <footer>
-                <h4>Total</h4>
-                {<p>{totalValue.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}</p>}
+                <footer>
+                    <div className="flex row justify-between mt-24">
+                        <h4 className="font-sans font-semibold ml-2">Total</h4>
+                        {<p className="font-sans font-semibold mr-2">{totalValue.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}</p>}
+                    </div>
 
-                <button onClick={removeAll} type="submit">Remove all</button>
-            </footer>
-        </section>
+                    <button className="w-72 border-2 h-9 rounded bg-red-500 border-red-500 text-white font-sans font-semibold mt-4 ml-4" onClick={removeAll} type="submit">Remove all</button>
+                </footer>
+            </section>
+        </div>
+       
     )
 }
