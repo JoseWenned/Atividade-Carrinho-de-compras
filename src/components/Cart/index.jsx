@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import { UserContext } from "../../provider/ProductContext"
+import { toast } from "react-toastify"
 
 export const Cart = () => {
 
@@ -24,11 +25,23 @@ export const Cart = () => {
         localStorage.removeItem("addProduct")
         localStorage.removeItem("count")
         localStorage.removeItem("totalValue")
+
+        toast.warn('All products has been removed!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+
     }
 
     return(
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <section className="w-80 h-80 bg-slate-50 rounded overflow-y-auto relative">
+            <section className="w-96 h-80 bg-slate-50 rounded overflow-y-hidden relative">
                 <header className="flex justify-between bg-slate-200 h-10 rounded">
                     <h3 className="font-sans font-bold text-1xl mt-2 ml-2">Shopping Cart</h3>
 
@@ -36,7 +49,7 @@ export const Cart = () => {
                 </header>
 
                 {setItemProduct.length !== 0 ? 
-                <section>
+                <section className="h-32 overflow-y-auto overflow-x-hidden mt-5">
                     <ul>
                         {itemProduct?.map((item) => {
                             return(
@@ -48,7 +61,7 @@ export const Cart = () => {
                                     </div>
                                     
                                     <div>
-                                        <button className="border-2 rounded bg-slate-50 h-9 w-20 -mt-9 absolute ml-56 font-semibold font-sans" onClick={()=>  handleRemoveProduct(item)} type="sumit">Remove</button>
+                                        <button className="border-2 rounded bg-slate-50 h-9 w-20 -mt-9 absolute ml-64 font-semibold font-sans" onClick={()=>  handleRemoveProduct(item)} type="sumit">Remove</button>
                                     </div>
                                     
                                 </li>
@@ -57,13 +70,13 @@ export const Cart = () => {
                     </ul>
                 </section> : (<p>Cart empty</p>)}
 
-                <footer className="absolute mt-20">
-                    <div className="flex row justify-between mt-24 ml-2.5">
-                        <h4 className="font-sans font-semibold ml-2">Total</h4>
+                <footer className="mt-10">
+                    <div className="flex row justify-between ml-2.5">
+                        <h4 className="font-sans font-semibold ">Total</h4>
                         {<p className="font-sans font-semibold mr-2">{totalValue.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}</p>}
                     </div>
 
-                    <button className="w-72 border-2 h-9 rounded bg-red-500 border-red-500 text-white font-sans font-semibold mt-4 ml-4 mb-2" onClick={removeAll} type="submit">Remove all</button>
+                    <button className="w-80 border-2 h-9 rounded bg-red-500 border-red-500 text-white font-sans font-semibold mt-4 ml-8 mb-2" onClick={removeAll} type="submit">Remove all</button>
                 </footer>
             </section>
         </div>

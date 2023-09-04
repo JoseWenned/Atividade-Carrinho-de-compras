@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react" 
 import { useQuery } from "@tanstack/react-query"
 import { api } from "../service/index"
+import { toast } from "react-toastify"
 
 export const UserContext = createContext()
 
@@ -37,12 +38,36 @@ export const ThemeContext = ({ children }) => {
         const addProduct = itemProduct.some((item) => item.id === product.id)
         
         if(addProduct) {
-            
-        }
 
-        setItemProduct([...itemProduct, product])
-        countSume()
-        setTotalValue(totalValue + product.price)
+            toast.warning('Product has already been added!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+
+        }else {
+
+            toast.success('Product add!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+    
+            setItemProduct([...itemProduct, product])
+            countSume()
+            setTotalValue(totalValue + product.price)
+
+        }
         
         localStorage.setItem("addProduct", JSON.stringify([...itemProduct, product]))
         
@@ -58,6 +83,17 @@ export const ThemeContext = ({ children }) => {
             setTotalValue(TotalValue)
           
         } 
+
+        toast.warn('Your product has been removed!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
 
         setTotalValue(totalValue - product.price)
         setItemProduct(upDataCart)
