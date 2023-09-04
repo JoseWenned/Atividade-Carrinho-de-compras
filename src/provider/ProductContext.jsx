@@ -8,7 +8,7 @@ export const ThemeContext = ({ children }) => {
 
     const [ isOpen, setIsOpen ] = useState(false)
     const [ isCount, setIsCount ] = useState(JSON.parse(localStorage.getItem("count")) || 0)
-    const [ itemProduct, setItemProduct ] = useState([])
+    const [ itemProduct, setItemProduct ] = useState(JSON.parse(localStorage.getItem("addProduct")) || [])
     const [ totalValue, setTotalValue ] = useState(JSON.parse(localStorage.getItem("totalValue")) || 0)
 
     const countSume = () => {
